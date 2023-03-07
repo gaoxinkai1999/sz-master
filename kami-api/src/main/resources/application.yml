@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.243.129.90:3306/db01
+    username: miaoshidahu
+    password: miaoshidahu
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    timeout: 5000
+server:
+  port: 8081

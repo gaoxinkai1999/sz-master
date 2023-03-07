@@ -1,0 +1,25 @@
+## 大漠许可证
+license: 6428881518c263e745b0f01e374c8cdb9936a6
+## 标题名
+title: 三国志·战略版
+## 窗口大小
+height: 878
+width: 1560
+
+server:
+  port: 8080
+
+
+forest:
+  ## 日志总开关，打开/关闭Forest请求/响应日志（默认为 true）
+  log-enabled: false
+  ## 打开/关闭Forest请求日志（默认为 true）
+  log-request: false
+  ## 打开/关闭Forest响应状态日志（默认为 true）
+  log-response-status: false
+  ## 打开/关闭Forest响应内容日志（默认为 false）
+  log-response-content: false
+spring:
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/, classpath:/META-INF/resources/webjars/, classpath:/static/dist
