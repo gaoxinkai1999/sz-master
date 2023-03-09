@@ -19,6 +19,7 @@ public class pic_info {
     public static final String 回城 = "/pic/action/huicheng.png";
     public static final String 征兵 = "/pic/action/zhengbing.png";
     public static final String 最大征兵 = "/pic/action/zuida.png";
+    public static final String 开始征兵 ="/pic/action/kaishizhengbing.png";
 
     public static final String 自动回城 = "/pic/action/zidonghuicheng.png";
     public static final String 坚持出征 = "/pic/action/jianchichuzheng.png";

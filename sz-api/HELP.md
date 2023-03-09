@@ -16,3 +16,5 @@ map可以识别当前所在地图
 C:\Users\g\Desktop\jre1.8.0_351\bin\java -jar sz-0.0.1-SNAPSHOT-encrypted.jar
 
 
+打野流程
+主城征兵流程: 检查兵力前往征兵处 补充兵力  调动到营帐 找野怪并出征 

@@ -12,20 +12,9 @@ import java.util.Random;
 @ToString
 public class Info {
     public String 卡密;
-    public Date 到期时间;
-    public int 有效期;
+    public int 剩余点数;
+    public int 累计点数;
 
-    public void 生成天卡() {
-        this.有效期 = 24;
-        生成卡密();
-
-    }
-
-    public void 生成测试卡() {
-        this.有效期 = 1;
-        生成卡密();
-
-    }
 
     private void 生成卡密() {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -38,13 +27,5 @@ public class Info {
         卡密 = stringBuffer.toString();
     }
 
-    public void 生成到期时间() {
-        到期时间 = new Date();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(到期时间);
-        // 把日期往后增加一天,整数  往后推,负数往前移动
-        calendar.add(Calendar.HOUR, 有效期);
-        // 这个时间就是日期往后推一天的结果
-        到期时间 = calendar.getTime();
-    }
+
 }

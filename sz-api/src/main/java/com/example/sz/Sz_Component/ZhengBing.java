@@ -34,6 +34,8 @@ public class ZhengBing {
     Cv cv;
     @Autowired
     Ocr ocr;
+    @Autowired
+    SendMessage sendMessage;
 
 
     /**
@@ -50,8 +52,7 @@ public class ZhengBing {
         String[] split = 兵力数据.split("/");
         int 当前兵力 = Integer.parseInt(split[0]);
         int 总兵力 = Integer.parseInt(split[1]);
-        System.out.println("当前兵力:" + 当前兵力);
-        System.out.println("总兵力:" + 总兵力);
+        sendMessage.send("当前兵力:" + 当前兵力);
         //判断阈值
         return ((当前兵力 * 1.0) / 总兵力 < 0.7);
     }
@@ -63,33 +64,26 @@ public class ZhengBing {
      */
     public void 主城征兵(Team team) {
         //已经在主城
-        if (team.state.equals("待命")) {
 
-            dm.MoveAndClick(快速分兵.x, 快速分兵.y);
-            dm.MoveAndClick(确定分兵.x, 确定分兵.y);
-        } else {
-            //不在主城，先回主城
-            action.回城(team);
-        }
+        dm.MoveAndClick(快速分兵.x, 快速分兵.y);
+        dm.MoveAndClick(确定分兵.x, 确定分兵.y);
+
     }
 
-    public void 调动点征兵(Team team, Point point) {
-        //已经在调动点
-        if (team.state.equals("调动")) {
-            //是否为指定调动点
-            if (location.获取队伍坐标(team).equals(point)) {
-                //征兵
-                Point 征兵坐标 = cv.模板匹配等待图片出现(pic_info.征兵);
-                dm.MoveAndClick(征兵坐标.x, 征兵坐标.y);
-                Point 队伍坐标 = cv.模板匹配等待图片出现(team.getPic_Path());
-                dm.MoveAndClick(队伍坐标.x, 队伍坐标.y);
-                Point 最大 = cv.模板匹配等待图片出现(pic_info.最大征兵);
-                dm.MoveAndClick(最大.x, 最大.y);
-                return;
-            }
-        }
-        find.a(point);
-        action.run(team, pic_info.调动);
+    public void 调动点征兵(Team team) {
+
+        //是否为指定调动点
+        map.前往指定队伍位置(team);
+
+        //征兵
+        Point 征兵坐标 = cv.模板匹配等待图片出现(pic_info.征兵);
+        dm.MoveAndClick(征兵坐标.x, 征兵坐标.y);
+        Point 队伍坐标 = cv.模板匹配等待图片出现(team.getPic_Path());
+        dm.MoveAndClick(队伍坐标.x, 队伍坐标.y);
+        Point 最大 = cv.模板匹配等待图片出现(pic_info.最大征兵);
+        dm.MoveAndClick(最大.x, 最大.y);
+        Point 开始征兵 = cv.模板匹配等待图片出现(pic_info.开始征兵);
+        dm.MoveAndClick(开始征兵.x, 开始征兵.y);
 
     }
 

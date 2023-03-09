@@ -1,8 +1,8 @@
 package com.example.sz;
 
+import com.example.sz.Dm.DmConfig;
 import com.example.sz.Dm.DmSoft;
 import com.example.sz.Pojo.Team;
-import com.example.sz.Pojo.Team_List;
 import com.example.sz.Sz_Component.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,19 +23,21 @@ public class Init {
     @Autowired
     DmSoft dmSoft;
     @Autowired
-    Team_List teams;
-
+    World world;
+    @Autowired
+    DmConfig config;
     public int hwnd;
 
     public void 执行初始化() {
+        config.register();
         //获取句柄
         hwnd = dmSoft.FindWindow("", title);
         //绑定窗口
         dmSoft.BindWindow(hwnd, "gdi", "dx2", "windows", 0);
-
+        dmSoft.SetWindowState(hwnd, 11);
         //设置分辨率
         dmSoft.SetClientSize(hwnd, width, height);
-        dmSoft.SetWindowState(hwnd, 11);
+
         //设置全局路劲
         String path = System.getProperty("user.dir") + "/pic";
         dmSoft.SetPath(path);
@@ -50,9 +52,10 @@ public class Init {
         //录入信息
         Point left = new Point(55, 722);
         Point right = new Point(123, 791);
+        System.out.println(world);
         for (int i = 0; i < 5; i++) {
             String path = "\\pic\\team\\" + i + ".png";
-            for (Team team : teams.getTeams()) {
+            for (Team team : world.teams) {
                 if (team.TeamId == i) {
                     team.setPic_Path(path);
                     dmSoft.CapturePng(left.x, left.y, right.x, right.y, "/team/" + i + ".png");

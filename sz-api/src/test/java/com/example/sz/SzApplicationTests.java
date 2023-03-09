@@ -4,7 +4,6 @@ import com.example.sz.Controller.Controller;
 import com.example.sz.Cv.Cv;
 import com.example.sz.Dm.DmConfig;
 import com.example.sz.Dm.DmSoft;
-import com.example.sz.Pojo.Team_List;
 import com.example.sz.Service.daye.Daye;
 import com.example.sz.Service.lianji.Lianji;
 import com.example.sz.Sz_Component.Action;
@@ -32,8 +31,6 @@ class SzApplicationTests {
     Find_Obj find;
     @Autowired
     Action action;
-    @Autowired
-    Team_List team_list;
     @Autowired
     DmSoft dm;
     @Autowired

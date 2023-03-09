@@ -14,6 +14,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 import static com.example.sz.pic_info.分享;
+import static com.example.sz.pic_info.调动;
 import static com.example.sz.point_info.坐标分享;
 import static com.example.sz.point_info.窗口中心;
 
@@ -51,18 +52,20 @@ public class Location {
         return 读取剪切板坐标并解析成点();
     }
 
-//    /**
-//
-//     查询队伍是否在指定调动点，不在则前往该调动点
-//     */
-//    public void 前往调动点(Team team,Point point){
-//        Point 队伍坐标 = 获取队伍坐标(team);
-//        if (!队伍坐标.equals(point)){
-//            fing.a(point);
-//            action.run(team,调动);
-//        }
-//
-//    }
+    /**
+
+     查询队伍是否在指定调动点，不在则前往该调动点
+     如果需要前往返回true 不需要则返回false
+     */
+    public boolean 前往调动点(Team team,Point point){
+        Point 队伍坐标 = 获取队伍坐标(team);
+        if (!队伍坐标.equals(point)){
+            fing.a(point);
+            action.run(team,调动);
+            return true;
+        }
+        return false;
+    }
 
     private Point 读取剪切板坐标并解析成点() {
         // 获取系统剪贴板

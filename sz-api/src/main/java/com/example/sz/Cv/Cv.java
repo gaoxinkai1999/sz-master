@@ -1,6 +1,7 @@
 package com.example.sz.Cv;
 
 import com.example.sz.Dm.DmSoft;
+import com.example.sz.Sz_Component.SendMessage;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.*;
 import org.opencv.features2d.DescriptorMatcher;
@@ -22,6 +23,8 @@ public class Cv {
     Cv_Result cv_result;
     @Autowired
     DmSoft dm;
+    @Autowired
+    SendMessage sendMessage;
 
     static {
         nu.pattern.OpenCV.loadShared();
@@ -174,7 +177,7 @@ public class Cv {
         int matchesPointCount = goodMatchesList.size();
         //当匹配后的特征点大于等于 4 个，则认为模板图在原图中，该值可以自行调整
         if (matchesPointCount >= 4) {
-            System.out.println("模板图在原图匹配成功！");
+//            System.out.println("模板图在原图匹配成功！");
 
             List<KeyPoint> templateKeyPointList = templateKeyPoints.toList();
             List<KeyPoint> originalKeyPointList = originalKeyPoints.toList();
@@ -232,7 +235,8 @@ public class Cv {
             if (cv_result.getScore() > 0.8) {
                 return cv_result.getMid();
             } else if (num > 5) {
-                System.out.println("等待图片超时");
+                sendMessage.send("等待图片超时");
+
             }
             num += 1;
             dm.Delay(500);
@@ -246,8 +250,7 @@ public class Cv {
             if (point != null) {
                 return point;
             } else if (num > 5) {
-                System.out.println("等待图片超时");
-
+                sendMessage.send("等待图片超时");
             }
             num += 1;
             dm.Delay(500);

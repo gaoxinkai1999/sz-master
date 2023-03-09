@@ -3,13 +3,14 @@ package com.example.sz.Controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.sz.Dm.DmSoft;
 import com.example.sz.Init;
-import com.example.sz.Pojo.Team_List;
+import com.example.sz.Pojo.Team;
 import com.example.sz.Sz_Component.Dispatch;
 import com.example.sz.Sz_Component.Location;
+import com.example.sz.Sz_Component.SendMessage;
 import com.example.sz.Sz_Component.State_Check;
+import com.example.sz.WebSocketServer;
+import com.example.sz.World;
 import com.example.sz.kami.kami_api;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,8 +26,6 @@ public class Controller {
     @Autowired
     Dispatch dispatch;
     @Autowired
-    Team_List team_list;
-    @Autowired
     Init init;
     @Autowired
     Location location;
@@ -36,34 +35,34 @@ public class Controller {
     State_Check check;
     @Autowired
     kami_api kami_api;
+    @Autowired
+    SendMessage sendMessage;
+    @Autowired
+    World world;
 
     @PostMapping("demo")
-    public void demo(@RequestBody String json) {
+    public void demo(@RequestBody JSONObject json) {
+        System.out.println(json);
+        world.卡密= json.getString("卡密");
+        world.teams= json.getJSONArray("teams").toJavaList(Team.class);
+//
+        System.out.println(world.teams);
 
-        team_list = JSONObject.parseObject(json, Team_List.class);
-
-        System.out.println(team_list);
-        if (!kami_api.a(team_list.get卡密())) {
-            return;
-        }
         init.执行初始化();
 
-        dispatch.a();
+        dispatch.run();
 
-//        Point 获取队伍坐标 = location.获取队伍坐标(teams.get(0));
-//        System.out.println(获取队伍坐标);
+
 
 
     }
 
+    @Autowired
+    WebSocketServer webSocketServer;
+
     @PostMapping("a")
-    public void a() {
-
-        String property = System.getProperty("user.dir");
-        System.out.println(property);
-        Mat imread = Imgcodecs.imread(property + "/pic/xxx.png");
-        System.out.println(imread);
-
+    public void a(String text) {
+        sendMessage.send(text);
     }
 
 

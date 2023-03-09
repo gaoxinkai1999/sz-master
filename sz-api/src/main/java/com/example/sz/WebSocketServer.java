@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
@@ -18,12 +17,12 @@ import java.io.IOException;
 @Component
 @Slf4j
 @Service
-@ServerEndpoint("/api/websocket/{sid}")
+@ServerEndpoint("/api/websocket")
 public class WebSocketServer {
 
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
-    private Session session;
+    public static Session session;
 
     //接收sid
 
@@ -32,8 +31,9 @@ public class WebSocketServer {
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("sid") String sid) {
-        this.session = session;
+    public void onOpen(Session session) {
+        System.out.println(session);
+        WebSocketServer.session = session;
     }
 
     /**
@@ -41,7 +41,8 @@ public class WebSocketServer {
      */
     @OnClose
     public void onClose() {
-
+        session=null;
+        System.out.println("断开连接");
     }
 
     /**
@@ -51,7 +52,7 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-
+        System.out.println(message);
     }
 
     /**
@@ -67,8 +68,13 @@ public class WebSocketServer {
     /**
      * 实现服务器主动推送
      */
-    public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    public void sendMessage(String message){
+        try {
+            session.getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

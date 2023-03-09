@@ -12,9 +12,7 @@ public interface Dao {
     @Select("select * from db01.三战卡密 where 卡密=#{卡密}")
     Info select(String 卡密);
 
-    @Insert("insert into db01.三战卡密(卡密,有效期) values (#{卡密},#{有效期})")
-    void add(Info info);
 
-    @Update("UPDATE db01.三战卡密 SET 到期时间=#{到期时间} WHERE 卡密 = #{卡密}")
-    void 卡密使用(Info info);
+    @Update("UPDATE db01.三战卡密 SET 剩余点数=剩余点数-#{点数} WHERE 卡密 = #{卡密}")
+    int 卡密使用(String 卡密,int 点数);
 }

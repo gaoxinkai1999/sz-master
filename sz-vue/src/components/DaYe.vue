@@ -18,25 +18,26 @@
 
       <el-form-item label="调动点1">
         <span>x:</span>
-        <el-input v-model="form.task.配置JSON.调动点[0].x" style="width: 30%"></el-input>
+        <el-input-number v-model="form.task.配置JSON.调动点[0].x"  :min="1" :max="10000" style="width: 30%" ></el-input-number>
         <span>y:</span>
-        <el-input v-model="form.task.配置JSON.调动点[0].y" style="width: 30%"></el-input>
-      </el-form-item>
-      <el-form-item label="调动点2">
-        x:
-        <el-input v-model="form.task.配置JSON.调动点[1].x" style="width: 30%"></el-input>
+        <el-input-number v-model="form.task.配置JSON.调动点[0].y"  :min="1" :max="10000" style="width: 30%" ></el-input-number>
 
-        y:
-        <el-input v-model="form.task.配置JSON.调动点[1].y" style="width: 30%"></el-input>
       </el-form-item>
-      <el-form-item label="调动点3">
-        x:
-        <el-input v-model="form.task.配置JSON.调动点[2].x" style="width: 30%"></el-input>
-        y:
-        <el-input v-model="form.task.配置JSON.调动点[2].y" style="width: 30%"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="调动点2">-->
+<!--        x:-->
+<!--        <el-input v-model="form.task.配置JSON.调动点[1].x" style="width: 30%"></el-input>-->
+
+<!--        y:-->
+<!--        <el-input v-model="form.task.配置JSON.调动点[1].y" style="width: 30%"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="调动点3">-->
+<!--        x:-->
+<!--        <el-input v-model="form.task.配置JSON.调动点[2].x" style="width: 30%"></el-input>-->
+<!--        y:-->
+<!--        <el-input v-model="form.task.配置JSON.调动点[2].y" style="width: 30%"></el-input>-->
+<!--      </el-form-item>-->
       <el-form-item label="圈数">
-        <el-input v-model="form.task.配置JSON.圈数" style="width: 30%"></el-input>
+        <el-input-number v-model="form.task.配置JSON.圈数"  :min="1" :max="10" style="width: 30%" ></el-input-number>
       </el-form-item>
 
       <el-form-item>
@@ -58,7 +59,7 @@ export default {
           type: "打野",
           配置JSON: {
             调动点: [
-              {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}
+              {x: 0, y: 0},
             ],
             圈数: 0,
             是否主城征兵: true

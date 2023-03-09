@@ -1,8 +1,9 @@
 package com.example.sz.Sz_Component;
 
 import com.example.sz.Pojo.Team;
-import com.example.sz.Pojo.Team_List;
-import com.example.sz.Service.Service;
+import com.example.sz.Service.daye.Daye;
+import com.example.sz.Service.lianji.Lianji;
+import com.example.sz.World;
 import com.example.sz.kami.kami_api;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 public class Dispatch {
     @Autowired
-    public Team_List team_list;
+    World world;
     @Autowired
     BeanFactory factory;
 
@@ -23,21 +24,26 @@ public class Dispatch {
     State_Check state_check;
     @Autowired
     kami_api kami_api;
+    @Autowired
+    SendMessage sendMessage;
+    @Autowired
+    Daye daye;
+    @Autowired
+    Lianji lianji;
 
-    public void a() {
+    public void run() {
+        //初始化
+        初始化();
         while (true) {
-            for (Team team : team_list.getTeams()) {
-                if (!kami_api.a(team_list.get卡密())) {
-                    return;
-                }
+            for (Team team : world.teams) {
                 state_check.获取部队状态(team);
-                System.out.println("部队当前状态为:" + team.state);
+                sendMessage.send("当前部队状态为" + team.state);
                 switch (team.state) {
                     case "调动":
                     case "停留":
                     case "待命":
                         //该分支匹配到队伍正在待命，可以分配行动
-                        分配行动(team);
+                        team.last_process.run(team);
                         break;
                     default:
                         //该分支匹配到队伍正在行动，不可分配任务
@@ -47,13 +53,17 @@ public class Dispatch {
         }
     }
 
-    public void 分配行动(Team team) {
-        System.out.println(team);
-        if (!team.task.是否完成) {
-            System.out.println("开始执行    " + team.task.type);
-            Service bean = factory.getBean(team.task.type, Service.class);
-            bean.run(team);
-        }
+    private void 初始化(){
+        for (Team team : world.teams) {
+            switch (team.task.type) {
+                case "打野":
+                    daye.run(team);
+                    break;
+                case "练级":
+                    lianji.run(team);
+                    break;
+            }
 
+        }
     }
 }
